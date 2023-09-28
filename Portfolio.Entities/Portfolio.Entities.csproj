@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Portfolio.Core\Portfolio.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ComplexTypes\" />
+  </ItemGroup>
+
 </Project>
