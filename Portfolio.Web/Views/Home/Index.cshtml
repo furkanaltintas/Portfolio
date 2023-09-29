@@ -1,5 +1,16 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@using Portfolio.Web.Helpers;
+@model IDataResult<List<MenuGetAllDto>>
+
+@await Component.InvokeAsync("LeftSideBar")
+
+@if (Model.IsSuccess) // İçerisinde data var ise
+{
+    foreach (var menu in Model.Data) // var olan dataları dönüyoruz
+    {
+        if (HasViewComponentHelper.Init(menu.ComponentName)) // database de olan datalar progrram içerisinde var mı ?
+        {
+            @await Component.InvokeAsync(menu.ComponentName)
+            ;
+        }
+    }
 }

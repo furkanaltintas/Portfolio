@@ -1,0 +1,28 @@
+﻿@model IDataResult<List<SpecializationGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    <section class="services-area page-section scroll-to-page" id="services">
+        <div class="custom-container">
+            <div class="services-content content-width">
+                <div class="section-header">
+                    <my-icon-name entity-name="@Model.Data.First().GetType().Name"></my-icon-name>
+                    <h1 class="scroll-animation" data-animation="fade_from_bottom">My <span>Specializations</span></h1>
+                </div>
+
+                <div class="services-items">
+                    @foreach (var service in Model.Data)
+                    {
+                        <div class="service-item scroll-animation" data-animation="fade_from_bottom">
+                            <i class="las la-@service.IconName"></i>
+                            <h2>@service.Title</h2>
+                            <p>@service.Description</p>
+                            <span class="projects">@service.TotalProject</span>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </section>
+}

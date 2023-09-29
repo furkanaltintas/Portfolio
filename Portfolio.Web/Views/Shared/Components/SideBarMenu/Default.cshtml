@@ -1,0 +1,42 @@
+﻿@model IDataResult<List<MenuGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    <div class="responsive-sidebar-menu">
+        <div class="overlay"></div>
+        <div class="sidebar-menu-inner">
+            <div class="menu-wrap">
+                <p>Menu</p>
+                <ul class="menu scroll-nav-responsive d-flex">
+                    @foreach (var menu in Model.Data)
+                    {
+                        @if (menu.IsActive)
+                        {
+                            <li>
+                                <a class="scroll-to" href="#@menu.Header.ToLower()">
+                                    @*<my-menu menu-value="@menu" menu-type="SideBarMenu"></my-menu>*@
+                                    <i class="@menu.IconName"></i> <span>@menu.Header</span>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+
+            <div class="sidebar-social">
+                <p>Social</p>
+                <ul class="social-links d-flex align-items-center">
+                    <li>
+                        <a href=""><i class="lab la-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a href=""><i class="lab la-dribbble"></i></a>
+                    </li>
+                    <li>
+                        <a href=""><i class="lab la-instagram"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}

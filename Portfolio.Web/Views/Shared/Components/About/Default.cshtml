@@ -1,0 +1,21 @@
+﻿@model IDataResult<AboutGetDto>
+
+@if (Model.IsSuccess)
+{
+    <section class="about-area page-section scroll-to-page" id="about">
+        <div class="custom-container">
+            <div class="about-content content-width">
+                <div class="section-header">
+                    <my-icon-name entity-name="@Model.Data.GetType().Name"></my-icon-name>
+
+                    <h1 class="scroll-animation" data-animation="fade_from_bottom">
+                        @Model.Data.Title
+                    </h1>
+                </div>
+                <p class="scroll-animation" data-animation="fade_from_bottom">
+                    @Model.Data.Description
+                </p>
+            </div>
+        </div>
+    </section>
+}

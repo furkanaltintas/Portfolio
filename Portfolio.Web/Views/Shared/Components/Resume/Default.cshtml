@@ -1,0 +1,27 @@
+﻿@model IDataResult<List<ResumeGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    <section class="resume-area page-section scroll-to-page" id="resume">
+        <div class="custom-container">
+            <div class="resume-content content-width">
+                <div class="section-header">
+                    <my-icon-name entity-name="@Model.Data.First().GetType().Name"></my-icon-name>
+                    <h1 class="scroll-animation" data-animation="fade_from_bottom">Education & <span>Experience</span></h1>
+                </div>
+
+                <div class="resume-timeline">
+                    @foreach (var resume in Model.Data)
+                    {
+                        <div class="item scroll-animation" data-animation="fade_from_right">
+                            <span class="date">@resume.DateRange</span>
+                            <h2>@resume.Title</h2>
+                            <p>@resume.SubTitle</p>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </section>
+}

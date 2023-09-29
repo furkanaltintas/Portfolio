@@ -1,0 +1,31 @@
+﻿@model IDataResult<List<SkillGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    <section class="skills-area page-section scroll-to-page" id="skills">
+        <div class="custom-container">
+            <div class="skills-content content-width">
+                <div class="section-header">
+                    <my-icon-name entity-name="@Model.Data.First().GetType().Name"></my-icon-name>
+                    <h1 class="scroll-animation" data-animation="fade_from_bottom">My <span>Advantages</span></h1>
+                </div>
+
+                <div class="row skills text-center">
+                    @foreach (var skill in Model.Data)
+                    {
+                        <div class="col-md-3 scroll-animation" data-animation="fade_from_left">
+                            <div class="skill">
+                                <div class="skill-inner">
+                                    <img src="~/drake/assets/images/wordpress.png" alt="@skill.Name">
+                                    <h1 class="percent">@skill.Point%</h1>
+                                </div>
+                                <p class="name">@skill.Name</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </section>
+}

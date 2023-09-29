@@ -1,0 +1,16 @@
+﻿@model IDataResult<List<MenuGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    <ul class="menu scroll-nav d-flex">
+        @foreach (var menu in Model.Data)
+        {
+            <li>
+                <a class="scroll-to" href="#@menu.Header.ToLower()">
+                    @*<my-menu menu-value="@menu" menu-type="SmallMenu"></my-menu>*@
+                    <span>@menu.Header</span> <i class="@menu.IconName"></i>
+                </a>
+            </li>
+        }
+    </ul>
+}

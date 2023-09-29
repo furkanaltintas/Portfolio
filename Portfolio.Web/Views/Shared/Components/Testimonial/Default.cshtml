@@ -1,0 +1,46 @@
+﻿@model IDataResult<List<TestimonialGetAllDto>>
+
+@if(Model.IsSuccess)
+{
+    <section class="testimonial-area page-section scroll-to-page" id="testimonial">
+        <div class="custom-container">
+            <div class="testimonial-content content-width">
+                <div class="section-header">
+                    <my-icon-name entity-name="@Model.Data.First().GetType().Name"></my-icon-name>
+                    <h1 class="scroll-animation" data-animation="fade_from_bottom">Trusted by <span>Hundered Clients</span></h1>
+                </div>
+
+                <div class="testimonial-slider-wrap scroll-animation" data-animation="fade_from_bottom">
+                    <div class="owl-carousel testimonial-slider owl-theme">
+                        @foreach (var testimonial in Model.Data)
+                        {
+                            <div class="testimonial-item">
+                                <div class="testimonial-item-inner">
+                                    <div class="author d-flex align-items-center">
+                                        <img src="~/drake/assets/images/testimonial-1.jpg" alt="Testimonial">
+                                        <div class="right">
+                                            <h3>@testimonial.FullName</h3>
+                                            <p class="designation">CEO of <span>IBM Global</span></p>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        “@testimonial.Description”
+                                    </p>
+
+                                    <a href="" class="project-btn">Project</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="testimonial-footer-nav">
+                        <div class="testimonial-nav d-flex align-items-center">
+                            <button class="prev"><i class="las la-angle-left"></i></button>
+                            <div id="testimonial-slide-count"></div>
+                            <button class="next"><i class="las la-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
