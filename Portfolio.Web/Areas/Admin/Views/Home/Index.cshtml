@@ -1,0 +1,96 @@
+﻿@using Portfolio.Core.Helpers;
+@using Portfolio.Web.Helpers;
+@model IDataResult<List<MenuGetAllDto>>
+
+<div class="card mt-3">
+    <div class="card-content">
+        <div class="row row-group m-0">
+
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">9526 <span class="float-right"><i class="fa fa-shopping-cart"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">Sayfaya Giriş Sayısı <span class="float-right">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">Github Gitme Sayısı <span class="float-right">+1.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">Sayfayı Görenler <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">Mesajlar <span class="float-right">+2.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Menu Table</h5>
+                <div class="table-responsive">
+                    @*
+                    @{
+                    <my-table data="ObjectCastHelper.CastToObj(Model.Data)"></my-table>
+                    }
+                    *@
+
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ViewComponent Name</th>
+                                <th>Header</th>
+                                <th>Slug</th>
+                                <th>Icon Name</th>
+                                <th>Queue</th>
+                                <th>Is Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var menu in Model.Data)
+                            {
+                                <tr>
+                                    <td>@menu.ComponentName</td>
+                                    <td>@menu.Header</td>
+                                    <td>@menu.Slug</td>
+                                    <td>@menu.IconName</td>
+                                    <td>@menu.Queue</td>
+                                    <td>@IsActiveHelper.GetIsActiveStatus(menu.IsActive)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-action="menudetail" class="btn btn-light px-5 btn-block">Menu Detail</a>

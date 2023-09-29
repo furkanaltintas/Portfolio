@@ -1,0 +1,14 @@
+﻿@using Portfolio.Core.Helpers;
+@using Portfolio.Core.Utilities.Data.Html;
+@model IDataResult<IntroduceGetDto>
+
+@if(Model.IsSuccess)
+{
+    var tableData = new TableData(new() { new("Update", $"/admin/introduces/update"), new("Delete", $"/admin/introduces/remove") });
+
+    <my-table data="ObjectCastHelper.CastToObjList(Model.Data)"table-button-link="tableData"></my-table>
+}
+else
+{
+    <a asp-action="create" class="btn btn-light px-5">Create</a>
+}

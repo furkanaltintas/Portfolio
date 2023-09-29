@@ -1,0 +1,42 @@
+﻿@model IntroduceGetDto
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Introduce Update</div>
+                <hr>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="input-1">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter Your Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">Description</label>
+                        <input asp-for="Description" class="form-control" placeholder="Enter Your Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-3">Experience Content</label>
+                        <input asp-for="ExperienceContent" class="form-control" placeholder="Enter Your Experience Content">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-4">Experience Period</label>
+                        <input asp-for="ExperiencePeriod" class="form-control" placeholder="Enter Your Experience Period">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-5">Project Content</label>
+                        <input asp-for="ProjectContent" class="form-control" placeholder="Enter Your Project Content">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-5">Project Count</label>
+                        <input asp-for="ProjectCount" class="form-control" placeholder="Confirm Password" disabled>
+                        <span>Project Count sayısı, GitHub üzerinden çekildiği için değişiklik yapılamaz</span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light px-5">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

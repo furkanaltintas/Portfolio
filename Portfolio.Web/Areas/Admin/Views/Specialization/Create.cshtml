@@ -1,0 +1,33 @@
+﻿@model SpecializationCreateDto
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Specialization Create</div>
+                <hr>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="input-1">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter Your Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">Description</label>
+                        <input asp-for="Description" class="form-control" placeholder="Enter Your Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-3">Total Project</label>
+                        <input asp-for="TotalProject" class="form-control" placeholder="Enter Your Total Project">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-4">Icon Name</label>
+                        <input asp-for="IconName" class="form-control" placeholder="Enter Your Icon Name">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light px-5">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

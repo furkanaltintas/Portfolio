@@ -1,0 +1,42 @@
+﻿@model MenuCreateDto
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Menu Create</div>
+                <hr>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="input-1">Component Name</label>
+                        <input asp-for="ComponentName" class="form-control" placeholder="Enter Your Component Name">
+                        <span class="small">Component ismi oluştururken dikkatli olunuz</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">Header</label>
+                        <input asp-for="Header" class="form-control" placeholder="Enter Your Header">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-3">Slug</label>
+                        <input asp-for="Slug" class="form-control" placeholder="Enter Your Slug">
+                        <span class="small">Slug ismini küçük yazmaya özen gösterin.</span>
+                        <span class="small">Dikkat: # ifadesini eklemeden yazınız.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-4">Icon Name</label>
+                        <input asp-for="IconName" class="form-control" placeholder="Enter Your Icon Name">
+                    </div>
+                    <div class="form-group py-2">
+                        <div class="icheck-material-white">
+                            <input asp-for="IsActive">
+                            <label asp-for="IsActive">Is it active?</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light px-5">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

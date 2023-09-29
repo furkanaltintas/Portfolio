@@ -1,0 +1,14 @@
+﻿@using Portfolio.Core.Helpers;
+@using Portfolio.Core.Utilities.Data.Html;
+@model IDataResult<List<TestimonialGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    var tableData = new TableData(new() { new("Delete", $"/admin/testimonials/remove") });
+
+    <my-table data="ObjectCastHelper.CastToObj(Model.Data)" table-button-link="tableData"></my-table>
+}
+else
+{
+    <span>@Model.Message</span>
+}

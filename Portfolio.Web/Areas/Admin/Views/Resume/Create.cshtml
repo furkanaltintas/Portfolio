@@ -1,0 +1,29 @@
+﻿@model ResumeCreateDto
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Resume Create</div>
+                <hr>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="input-1">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter Your Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">SubTitle</label>
+                        <input asp-for="SubTitle" class="form-control" placeholder="Enter Your SubTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-3">Date Range</label>
+                        <input asp-for="DateRange" class="form-control" placeholder="Enter Your Date Range">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light px-5">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

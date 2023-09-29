@@ -1,0 +1,31 @@
+﻿@model AboutCreateDto
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">About Create</div>
+                <hr>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="input-1">Title</label>
+                        <input asp-for="Title" class="form-control" placeholder="Enter Your Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">Description</label>
+                        <input asp-for="Description" class="form-control" placeholder="Enter Your Description">
+                    </div>
+                    <div class="form-group py-2">
+                        <div class="icheck-material-white">
+                            <input asp-for="IsActive">
+                            <label asp-for="IsActive">Is it active?</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light px-5">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

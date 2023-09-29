@@ -1,0 +1,48 @@
+﻿@using Portfolio.Web.Helpers;
+@model IDataResult<List<MenuGetAllDto>>
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Menu Table</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>ViewComponent Name</th>
+                                <th>Header</th>
+                                <th>Slug</th>
+                                <th>Icon Name</th>
+                                <th>Queue</th>
+                                <th>Is Active</th>
+                                <th>Is Delete</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var menu in Model.Data)
+                            {
+                                <tr>
+                                    <td>@menu.ComponentName</td>
+                                    <td>@menu.Header</td>
+                                    <td>@menu.Slug</td>
+                                    <td>@menu.IconName</td>
+                                    <td>@menu.Queue</td>
+                                    <td>@IsActiveHelper.GetIsActiveStatus(menu.IsActive)</td>
+                                    <td>@IsActiveHelper.GetIsRemoveStatus(menu.IsDeleted)</td>
+                                    <td>
+                                        <a asp-action="update" asp-route-id="@menu.Id" class="btn btn-sm btn-primary">Update</a>
+                                        <custom-button href="/admin/menus" id="menu.Id" status="menu.IsDeleted"></custom-button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a asp-action="create" class="btn btn-light btn-block px-5">Create</a>

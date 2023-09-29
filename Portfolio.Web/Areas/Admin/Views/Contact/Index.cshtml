@@ -1,0 +1,18 @@
+﻿@using Portfolio.Core.Helpers;
+@using Portfolio.Core.Utilities.Data.Html;
+@model IDataResult<List<ContactGetAllDto>>
+
+@if (Model.IsSuccess)
+{
+    TableData tableData = new(new List<Button>()
+    {
+        new Button("Delete", "/admin/contacts/remove")
+    });
+    <my-table data="ObjectCastHelper.CastToObj(Model.Data)" table-button-link="tableData"></my-table>
+}
+else
+{
+    <div class="">
+        <span>@Model.Message</span>
+    </div>
+}

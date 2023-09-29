@@ -1,0 +1,29 @@
+﻿@model SkillGetDto
+
+<div class="row mt-3">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Skill Update</div>
+                <hr>
+                <form method="post">
+                    <div class="form-group">
+                        <label for="input-1">Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">Icon Name</label>
+                        <input asp-for="IconName" class="form-control" placeholder="Enter Your Icon Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-2">Point</label>
+                        <input asp-for="Point" class="form-control" placeholder="Enter Your Point">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-light px-5">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
