@@ -11,4 +11,5 @@ public class MenuGetAllDto : IDto
     public string IconName { get; set; } = null!;
     public short Queue { get; set; }
     public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; }
 }
