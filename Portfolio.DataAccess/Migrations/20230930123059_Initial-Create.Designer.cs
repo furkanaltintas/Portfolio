@@ -12,8 +12,8 @@ using Portfolio.DataAccess.Concrete.EntityFramework.Contexts;
 namespace Portfolio.DataAccess.Migrations
 {
     [DbContext(typeof(PortfolioContext))]
-    [Migration("20230926205714_initial-create")]
-    partial class initialcreate
+    [Migration("20230930123059_Initial-Create")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,112 @@ namespace Portfolio.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.ToTable("UserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.ToTable("UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "A041999F-3286-4278-A81A-9006BBB92478",
+                            RoleId = "701231D6-8EAE-4E98-A56D-65A8FDE7C0E6"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens", (string)null);
+                });
 
             modelBuilder.Entity("Portfolio.Entities.Concrete.About", b =>
                 {
@@ -66,7 +172,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(498),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(727),
                             Description = "Ben Furkan Altıntaş. Düzce Üniversitesi Mezunuyum.",
                             IsActive = true,
                             IsDeleted = false,
@@ -130,7 +236,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(2905),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(3263),
                             Email = "berketest@gmail.com",
                             FullName = "Berke Altıntaş",
                             IsActive = true,
@@ -198,7 +304,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(5044),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(5459),
                             Description = "And I'm sick of waiting patiently for someone that won't even arrive",
                             ExperienceContent = "Yazılım Tecrübesi",
                             ExperiencePeriod = (short)0,
@@ -245,12 +351,6 @@ namespace Portfolio.DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsHeaderActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsIconActive")
-                        .HasColumnType("bit");
-
                     b.Property<short>("Queue")
                         .HasColumnType("smallint");
 
@@ -271,13 +371,11 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 1,
                             ComponentName = "Introduce",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7173),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7637),
                             Header = "Introduce",
                             IconName = "las la-home",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)1,
                             Slug = "home"
                         },
@@ -285,13 +383,11 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 2,
                             ComponentName = "About",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7175),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7640),
                             Header = "About",
                             IconName = "lar la-user",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)2,
                             Slug = "about"
                         },
@@ -299,27 +395,23 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 3,
                             ComponentName = "Resume",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7177),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7642),
                             Header = "Resume",
                             IconName = "las la-briefcase",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)3,
                             Slug = "resume"
                         },
                         new
                         {
                             Id = 4,
-                            ComponentName = "Service",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7180),
+                            ComponentName = "Specialization",
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7644),
                             Header = "Services",
                             IconName = "las la-stream",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)4,
                             Slug = "services"
                         },
@@ -327,13 +419,11 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 5,
                             ComponentName = "Skill",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7181),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7646),
                             Header = "My Skills",
                             IconName = "las la-shapes",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)5,
                             Slug = "skills"
                         },
@@ -341,13 +431,11 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 6,
                             ComponentName = "Portfolio",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7183),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7648),
                             Header = "Portfolio",
                             IconName = "las la-grip-vertical",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)6,
                             Slug = "portfolio"
                         },
@@ -355,13 +443,11 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 7,
                             ComponentName = "Testimonial",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7185),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7649),
                             Header = "Testimonial",
                             IconName = "lar la-comment",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)7,
                             Slug = "testimonial"
                         },
@@ -369,13 +455,11 @@ namespace Portfolio.DataAccess.Migrations
                         {
                             Id = 8,
                             ComponentName = "Contact",
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7187),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7651),
                             Header = "Contact",
                             IconName = "las la-envelope",
                             IsActive = true,
                             IsDeleted = false,
-                            IsHeaderActive = false,
-                            IsIconActive = false,
                             Queue = (short)8,
                             Slug = "contact"
                         });
@@ -465,12 +549,48 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(1970),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(2703),
                             DateRange = "2019 - 2021",
                             IsActive = true,
                             IsDeleted = false,
                             SubTitle = "Düzce Üniversitesi",
                             Title = "Bilgisayar Programcılığı"
+                        });
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.Concrete.Role", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "701231D6-8EAE-4E98-A56D-65A8FDE7C0E6",
+                            ConcurrencyStamp = "901d4783-510a-4d53-af49-abd28efe45e7",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -518,7 +638,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(3965),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(7143),
                             IconName = "...",
                             IsActive = true,
                             IsDeleted = false,
@@ -528,7 +648,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(3968),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(7146),
                             IconName = "...",
                             IsActive = true,
                             IsDeleted = false,
@@ -538,7 +658,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(3970),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(7148),
                             IconName = "...",
                             IsActive = true,
                             IsDeleted = false,
@@ -593,7 +713,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(6123),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(9314),
                             IconName = "lab la-github",
                             IsActive = true,
                             IsDeleted = false,
@@ -603,7 +723,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(6125),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(9316),
                             IconName = "lab la-linkedin",
                             IsActive = false,
                             IsDeleted = false,
@@ -661,7 +781,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(8157),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 376, DateTimeKind.Local).AddTicks(1560),
                             Description = "I build website go live with Framer, Webflow or WordPress",
                             IconName = "las la-code",
                             IsActive = true,
@@ -717,7 +837,7 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(9922),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 376, DateTimeKind.Local).AddTicks(3516),
                             Degree = "Bilgisayar Mühendisi",
                             Description = "\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book\"",
                             FullName = "Berkay Akar",
@@ -727,12 +847,125 @@ namespace Portfolio.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(9925),
+                            CreatedDate = new DateTime(2023, 9, 30, 15, 30, 59, 376, DateTimeKind.Local).AddTicks(3518),
                             Degree = "Unity Developer",
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                             FullName = "Nihat Ovalıoğlu",
                             IsActive = true,
                             IsDeleted = false
+                        });
+                });
+
+            modelBuilder.Entity("Portfolio.Entities.Concrete.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Degree")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Picture")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "A041999F-3286-4278-A81A-9006BBB92478",
+                            AccessFailedCount = 0,
+                            Address = "İstanbul, Türkiye",
+                            ConcurrencyStamp = "94b8dda1-c6e8-4471-bc0e-c1be298844a9",
+                            Degree = "Backend Developer",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOXg5SA1dLsKiNxAK3OLucbrcuJd+2KiBwCF8VRpAYMNmnSfrzneRHHZ6X8ib1hIuA==",
+                            PhoneNumber = "+905555555555",
+                            PhoneNumberConfirmed = true,
+                            Picture = "",
+                            SecurityStamp = "df82f98a-4523-4281-90d7-cf6c1a408519",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
                         });
                 });
 

@@ -1,7 +1,6 @@
-﻿namespace Portfolio.DataAccess
-{
-    public class AssemblyRefence
-    {
+﻿namespace Portfolio.DataAccess;
 
-    }
+public class AssemblyRefence
+{
+
 }

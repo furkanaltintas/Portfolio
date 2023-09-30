@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace Portfolio.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class initialcreate : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -87,8 +88,6 @@ namespace Portfolio.DataAccess.Migrations
                     Slug = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     IconName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Queue = table.Column<short>(type: "smallint", nullable: false),
-                    IsHeaderActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsIconActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -118,6 +117,35 @@ namespace Portfolio.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Resumes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Roles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,6 +230,91 @@ namespace Portfolio.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Picture = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Degree = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MenuHeaders",
                 columns: table => new
                 {
@@ -229,46 +342,51 @@ namespace Portfolio.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Abouts",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "IsActive", "IsDeleted", "Title", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(498), null, "Ben Furkan Altıntaş. Düzce Üniversitesi Mezunuyum.", true, false, "Ben Kimim ?", null });
+                values: new object[] { 1, new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(727), null, "Ben Furkan Altıntaş. Düzce Üniversitesi Mezunuyum.", true, false, "Ben Kimim ?", null });
 
             migrationBuilder.InsertData(
                 table: "Contacts",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Email", "FullName", "IsActive", "IsDeleted", "Message", "Phone", "Subject", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(2905), null, "berketest@gmail.com", "Berke Altıntaş", true, false, "Bu bir deneme mesajıdır", "+90 555 555 55 55", "Deneme", null });
+                values: new object[] { 1, new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(3263), null, "berketest@gmail.com", "Berke Altıntaş", true, false, "Bu bir deneme mesajıdır", "+90 555 555 55 55", "Deneme", null });
 
             migrationBuilder.InsertData(
                 table: "Introduces",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "ExperienceContent", "ExperiencePeriod", "IsActive", "IsDeleted", "ProjectContent", "ProjectCount", "Title", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(5044), null, "And I'm sick of waiting patiently for someone that won't even arrive", "Yazılım Tecrübesi", (short)0, true, false, "Toplam Proje Sayısı (GitHub)", (short)0, "Merhaba ben Furkan", null });
+                values: new object[] { 1, new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(5459), null, "And I'm sick of waiting patiently for someone that won't even arrive", "Yazılım Tecrübesi", (short)0, true, false, "Toplam Proje Sayısı (GitHub)", (short)0, "Merhaba ben Furkan", null });
 
             migrationBuilder.InsertData(
                 table: "Menus",
-                columns: new[] { "Id", "ComponentName", "CreatedDate", "DeletedDate", "Header", "IconName", "IsActive", "IsDeleted", "IsHeaderActive", "IsIconActive", "Queue", "Slug", "UpdatedDate" },
+                columns: new[] { "Id", "ComponentName", "CreatedDate", "DeletedDate", "Header", "IconName", "IsActive", "IsDeleted", "Queue", "Slug", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, "Introduce", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7173), null, "Introduce", "las la-home", true, false, false, false, (short)1, "home", null },
-                    { 2, "About", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7175), null, "About", "lar la-user", true, false, false, false, (short)2, "about", null },
-                    { 3, "Resume", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7177), null, "Resume", "las la-briefcase", true, false, false, false, (short)3, "resume", null },
-                    { 4, "Service", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7180), null, "Services", "las la-stream", true, false, false, false, (short)4, "services", null },
-                    { 5, "Skill", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7181), null, "My Skills", "las la-shapes", true, false, false, false, (short)5, "skills", null },
-                    { 6, "Portfolio", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7183), null, "Portfolio", "las la-grip-vertical", true, false, false, false, (short)6, "portfolio", null },
-                    { 7, "Testimonial", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7185), null, "Testimonial", "lar la-comment", true, false, false, false, (short)7, "testimonial", null },
-                    { 8, "Contact", new DateTime(2023, 9, 26, 23, 57, 13, 938, DateTimeKind.Local).AddTicks(7187), null, "Contact", "las la-envelope", true, false, false, false, (short)8, "contact", null }
+                    { 1, "Introduce", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7637), null, "Introduce", "las la-home", true, false, (short)1, "home", null },
+                    { 2, "About", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7640), null, "About", "lar la-user", true, false, (short)2, "about", null },
+                    { 3, "Resume", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7642), null, "Resume", "las la-briefcase", true, false, (short)3, "resume", null },
+                    { 4, "Specialization", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7644), null, "Services", "las la-stream", true, false, (short)4, "services", null },
+                    { 5, "Skill", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7646), null, "My Skills", "las la-shapes", true, false, (short)5, "skills", null },
+                    { 6, "Portfolio", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7648), null, "Portfolio", "las la-grip-vertical", true, false, (short)6, "portfolio", null },
+                    { 7, "Testimonial", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7649), null, "Testimonial", "lar la-comment", true, false, (short)7, "testimonial", null },
+                    { 8, "Contact", new DateTime(2023, 9, 30, 15, 30, 59, 374, DateTimeKind.Local).AddTicks(7651), null, "Contact", "las la-envelope", true, false, (short)8, "contact", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Resumes",
                 columns: new[] { "Id", "CreatedDate", "DateRange", "DeletedDate", "IsActive", "IsDeleted", "SubTitle", "Title", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(1970), "2019 - 2021", null, true, false, "Düzce Üniversitesi", "Bilgisayar Programcılığı", null });
+                values: new object[] { 1, new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(2703), "2019 - 2021", null, true, false, "Düzce Üniversitesi", "Bilgisayar Programcılığı", null });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "701231D6-8EAE-4E98-A56D-65A8FDE7C0E6", "901d4783-510a-4d53-af49-abd28efe45e7", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "Skills",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "IconName", "IsActive", "IsDeleted", "Name", "Point", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(3965), null, "...", true, false, "Net Core", (short)60, null },
-                    { 2, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(3968), null, "...", true, false, "Wordpress", (short)45, null },
-                    { 3, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(3970), null, "...", true, false, "Angular", (short)35, null }
+                    { 1, new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(7143), null, "...", true, false, "Net Core", (short)60, null },
+                    { 2, new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(7146), null, "...", true, false, "Wordpress", (short)45, null },
+                    { 3, new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(7148), null, "...", true, false, "Angular", (short)35, null }
                 });
 
             migrationBuilder.InsertData(
@@ -276,28 +394,57 @@ namespace Portfolio.DataAccess.Migrations
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "IconName", "IsActive", "IsDeleted", "Link", "Name", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(6123), null, "lab la-github", true, false, "https://github.com/FurkanAltintas", "GitHub", null },
-                    { 2, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(6125), null, "lab la-linkedin", false, false, "https://www.linkedin.com/in/furkanaltintas/", "Linkedin", null }
+                    { 1, new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(9314), null, "lab la-github", true, false, "https://github.com/FurkanAltintas", "GitHub", null },
+                    { 2, new DateTime(2023, 9, 30, 15, 30, 59, 375, DateTimeKind.Local).AddTicks(9316), null, "lab la-linkedin", false, false, "https://www.linkedin.com/in/furkanaltintas/", "Linkedin", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Specializations",
                 columns: new[] { "Id", "CreatedDate", "DeletedDate", "Description", "IconName", "IsActive", "IsDeleted", "Title", "TotalProject", "UpdatedDate" },
-                values: new object[] { 1, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(8157), null, "I build website go live with Framer, Webflow or WordPress", "las la-code", true, false, "Development", "4 Projects", null });
+                values: new object[] { 1, new DateTime(2023, 9, 30, 15, 30, 59, 376, DateTimeKind.Local).AddTicks(1560), null, "I build website go live with Framer, Webflow or WordPress", "las la-code", true, false, "Development", "4 Projects", null });
 
             migrationBuilder.InsertData(
                 table: "Testimonials",
                 columns: new[] { "Id", "CreatedDate", "Degree", "DeletedDate", "Description", "FullName", "IsActive", "IsDeleted", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(9922), "Bilgisayar Mühendisi", null, "\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book\"", "Berkay Akar", true, false, null },
-                    { 2, new DateTime(2023, 9, 26, 23, 57, 13, 939, DateTimeKind.Local).AddTicks(9925), "Unity Developer", null, "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "Nihat Ovalıoğlu", true, false, null }
+                    { 1, new DateTime(2023, 9, 30, 15, 30, 59, 376, DateTimeKind.Local).AddTicks(3516), "Bilgisayar Mühendisi", null, "\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book\"", "Berkay Akar", true, false, null },
+                    { 2, new DateTime(2023, 9, 30, 15, 30, 59, 376, DateTimeKind.Local).AddTicks(3518), "Unity Developer", null, "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", "Nihat Ovalıoğlu", true, false, null }
                 });
+
+            migrationBuilder.InsertData(
+                table: "UserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "701231D6-8EAE-4E98-A56D-65A8FDE7C0E6", "A041999F-3286-4278-A81A-9006BBB92478" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Degree", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Picture", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "A041999F-3286-4278-A81A-9006BBB92478", 0, "İstanbul, Türkiye", "94b8dda1-c6e8-4471-bc0e-c1be298844a9", "Backend Developer", "admin@gmail.com", true, "Admin", "User", false, null, "ADMIN@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEOXg5SA1dLsKiNxAK3OLucbrcuJd+2KiBwCF8VRpAYMNmnSfrzneRHHZ6X8ib1hIuA==", "+905555555555", true, "", "df82f98a-4523-4281-90d7-cf6c1a408519", false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuHeaders_MenuId",
                 table: "MenuHeaders",
                 column: "MenuId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "Roles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "Users",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "Users",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         /// <inheritdoc />
@@ -319,6 +466,12 @@ namespace Portfolio.DataAccess.Migrations
                 name: "Resumes");
 
             migrationBuilder.DropTable(
+                name: "RoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
                 name: "Skills");
 
             migrationBuilder.DropTable(
@@ -329,6 +482,21 @@ namespace Portfolio.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Testimonials");
+
+            migrationBuilder.DropTable(
+                name: "UserClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins");
+
+            migrationBuilder.DropTable(
+                name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens");
 
             migrationBuilder.DropTable(
                 name: "Menus");
