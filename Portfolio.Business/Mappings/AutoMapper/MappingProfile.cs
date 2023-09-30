@@ -18,6 +18,7 @@ public class MappingProfile : Profile
                 new MapProfileSourceAndDestination(typeof(About), typeof(AboutUpdateDto), true),
 
                 new MapProfileSourceAndDestination(typeof(Contact), typeof(ContactGetAllDto), true),
+                new MapProfileSourceAndDestination(typeof(Contact), typeof(ContactCreateDto), true),
 
                 new MapProfileSourceAndDestination(typeof(Introduce), typeof(IntroduceGetDto), true),
                 new MapProfileSourceAndDestination(typeof(IntroduceUpdateDto), typeof(IntroduceGetDto), true),
@@ -52,6 +53,8 @@ public class MappingProfile : Profile
 
                 new MapProfileSourceAndDestination(typeof(MenuHeader), typeof(MenuHeaderGetAllDto), true),
                 new MapProfileSourceAndDestination(typeof(MenuHeader), typeof(MenuHeaderGetDto), true),
+
+                new MapProfileSourceAndDestination(typeof(User), typeof(UserGetDto), true)
 
             });
 
