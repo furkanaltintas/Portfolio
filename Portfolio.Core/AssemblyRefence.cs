@@ -1,7 +1,6 @@
-﻿namespace Portfolio.Core
-{
-    public class AssemblyRefence
-    {
+﻿namespace Portfolio.Core;
 
-    }
+public class AssemblyRefence
+{
+
 }
