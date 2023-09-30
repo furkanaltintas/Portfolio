@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Core.Helpers;
+using Portfolio.Web.Helpers;
 using System.Text;
 
 namespace Portfolio.Web.TagHelpers
@@ -20,7 +21,7 @@ namespace Portfolio.Web.TagHelpers
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            var newEntityName = DtoTagReplaceHelper.TagReplace(entityName);
+            var newEntityName = DtoNameRemoveHelper.DtoNameRemove(entityName);
 
             var result = await _service.MenuService.GetMenuAsync(newEntityName);
 
