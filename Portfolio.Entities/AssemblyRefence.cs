@@ -1,7 +1,6 @@
-﻿namespace Portfolio.Entities
-{
-    public class AssemblyRefence
-    {
+﻿namespace Portfolio.Entities;
 
-    }
+public class AssemblyRefence
+{
+
 }
