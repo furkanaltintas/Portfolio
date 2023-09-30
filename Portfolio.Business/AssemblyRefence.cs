@@ -1,7 +1,6 @@
-﻿namespace Portfolio.Business
-{
-    public class AssemblyRefence
-    {
+﻿namespace Portfolio.Business;
 
-    }
+public class AssemblyRefence
+{
+
 }
