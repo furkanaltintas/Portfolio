@@ -12,7 +12,7 @@
                 <h3 class="scroll-animation" data-animation="fade_from_bottom">hello@drake.design</h3>
                 <p id="required-msg">* Marked fields are required to fill.</p>
 
-                <form method="post" class="contact-form scroll-animation" data-animation="fade_from_bottom">
+                <form asp-controller="Contact" asp-action="Create" method="post" class="contact-form scroll-animation" data-animation="fade_from_bottom">
                     <div class="alert alert-success messenger-box-contact__msg" style="display: none" role="alert">
                         Your message was sent successfully.
                     </div>
@@ -58,6 +58,14 @@
                             </div>
                         </div>
                         <div class="col-md-12">
+                            <div class="input-group captcha">
+                                <label id="refresh" asp-for="CaptchaCode">Captcha Code <sup>*</sup></label>
+                                <img src="~/get-captcha-image" id="img-captcha" />
+                                <input asp-for="CaptchaCode" placeholder="Captcha Code" />
+                                <span asp-validation-for="CaptchaCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <div class="input-group submit-btn-wrap">
                                 <button type="submit" class="theme-btn" id="submit-form">send message</button>
                             </div>
@@ -68,3 +76,15 @@
         </div>
     </section>
 }
+
+
+    <script>
+            $("#refresh").click(function () {
+            resetCaptchaImage();
+        });
+
+        function resetCaptchaImage() {
+            d = new Date();
+            $("#img-captcha").attr("src", "/get-captcha-image?" + d.getTime());
+        }
+    </script>

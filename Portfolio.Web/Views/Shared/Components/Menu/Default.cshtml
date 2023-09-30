@@ -6,7 +6,7 @@
         @foreach (var menu in Model.Data)
         {
             <li>
-                <a class="scroll-to" href="#@menu.Header.ToLower()">
+                <a class="scroll-to" href="#@menu.Slug">
                     @*<my-menu menu-value="@menu" menu-type="SmallMenu"></my-menu>*@
                     <span>@menu.Header</span> <i class="@menu.IconName"></i>
                 </a>
