@@ -1,5 +1,5 @@
 # Portfolio
-Asp.Net Core ile yapılmış bir portfolio projesi
+Asp.Net Core ile yapılmış bir portfolyo projesi
 
 ### Project Details
 ------------
@@ -15,6 +15,14 @@ Asp.Net Core ile yapılmış bir portfolio projesi
 - Fluent Validation
 - Fluent Api
 - Result
+- RouteAttribute
+- Convention
+- Events
+- Filters
+- Identity
+- Middleware
+- TagHelper
+- ViewComponent
 - Code First
 - Dto
 - ViewModel
@@ -23,7 +31,7 @@ Asp.Net Core ile yapılmış bir portfolio projesi
 
 ### Project WebUI
 ------------
-- Template Name: Drake
+- Template Name: Drake, Dashtreme
 - Template Url: ...
 - Author: ...
 
