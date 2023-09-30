@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Portfolio.Entities.DTOs;
 using Portfolio.Web.Areas.Admin.Controllers.Base;
 
 namespace Portfolio.Web.Areas.Admin.Controllers;
 
+[Authorize]
 public class SpecializationController : BaseController
 {
     public async Task<IActionResult> Index()

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Portfolio.Web.Areas.Admin.Controllers.Base;
 
 namespace Portfolio.Web.Areas.Admin.Controllers;
 
+[Authorize]
 public class HomeController : BaseController
 {
     public async Task<IActionResult> Index()

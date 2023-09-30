@@ -70,7 +70,6 @@
         <li class="@IsActiveHelper.MenuIsActive(controllerName, "Menu")"><a asp-controller="menu"><i class="zmdi zmdi-coffee text-danger"></i> <span>Menu</span></a></li>
         <li><a href="javaScript:void();"><i class="zmdi zmdi-chart-donut text-success"></i> <span>Settings</span></a></li>
         <li><a href="javaScript:void();"><i class="zmdi zmdi-share text-info"></i> <span>Theme</span></a></li>
-
+        @await Component.InvokeAsync("AdminMaintenance")
     </ul>
-
 </div>

@@ -1,0 +1,9 @@
+﻿@model bool
+
+<li class="nav-item">
+    <form method="post" asp-area="Admin" asp-controller="Maintenance" asp-action="ToggleMaintenanceMode">
+        <button type="submit" class="btn btn-light px-5 btn-block">
+            <span>@(!Model ? "Siteyi Bakıma Al" : "Siteyi Canlıya Al")</span>
+        </button>
+    </form>
+</li>
