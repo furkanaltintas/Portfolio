@@ -7,6 +7,7 @@ public class ContactCreateDto
     public string Phone { get; set; } = null!;
     public string Subject { get; set; } = null!;
     public string Message { get; set; } = null!;
+    public string CaptchaCode { get; set; } = null!;
 
-    public bool IsItOnAir { get; set; } // Yayında Mı ?
+    public bool IsItOnAir { get; set; } = false; // Yayında Mı ?
 }
