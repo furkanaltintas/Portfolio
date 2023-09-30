@@ -11,4 +11,5 @@ public interface IService
     ISkillService SkillService { get; }
     ISocialMediaService SocialMediaService { get; }
     ITestimonialService TestimonialService { get; }
+    IUserService UserService { get; }
 }

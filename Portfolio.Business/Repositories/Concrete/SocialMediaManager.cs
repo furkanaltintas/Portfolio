@@ -42,14 +42,14 @@ public class SocialMediaManager : BaseManager, ISocialMediaService
 
     public async Task<IDataResult<List<SocialMediaGetAllDto>>> GetAllSocialMediaAsync()
     {
-        var socialMedia = await Repository
+        var socialMedias = await Repository
             .GetRepository<SocialMedia>()
-            .GetAsync(a => a.IsActive);
+            .GetAllAsync(a => a.IsActive);
 
-        if (socialMedia is null)
+        if (socialMedias.Count is 0)
             return new ErrorDataResult<List<SocialMediaGetAllDto>>();
 
-        var socialMediaGetAllDtos = Mapper.Map<List<SocialMediaGetAllDto>>(socialMedia);
+        var socialMediaGetAllDtos = Mapper.Map<List<SocialMediaGetAllDto>>(socialMedias);
 
         return new SuccessDataResult<List<SocialMediaGetAllDto>>(socialMediaGetAllDtos);
     }

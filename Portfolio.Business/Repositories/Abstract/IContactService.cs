@@ -7,7 +7,10 @@ public interface IContactService
 {
     Task<IDataResult<List<ContactGetAllDto>>> GetAllContactAsync();
 
+
+    Task<IResult> CreateContactAsync(ContactCreateDto contactCreateDto);
     Task<IResult> DeleteContactAsync(int id);
+
 
     Task<bool> HasContactAsync();
 }

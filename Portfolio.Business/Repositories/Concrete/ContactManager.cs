@@ -17,6 +17,18 @@ public class ContactManager : BaseManager, IContactService
     {
     }
 
+    public async Task<IResult> CreateContactAsync(ContactCreateDto contactCreateDto)
+    {
+        if (contactCreateDto is null)
+            return new ErrorResult();
+
+        var contact = Mapper.Map<Contact>(contactCreateDto);
+        await Repository.GetRepository<Contact>().AddAsync(contact);
+        await Repository.SaveAsync();
+
+        return new SuccessResult(Messages<Contact>.GenericMessage.TAdded);
+    }
+
     public async Task<IResult> DeleteContactAsync(int id)
     {
         var contact = await Repository.GetRepository<Contact>().GetAsync(c => c.Id.Equals(id));
