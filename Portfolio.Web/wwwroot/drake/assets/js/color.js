@@ -1,5 +1,3 @@
-
-
 function color1() {
     document.documentElement.style.setProperty('--primary_color', '#28e98c');
 }
