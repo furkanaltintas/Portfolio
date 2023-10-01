@@ -23,7 +23,7 @@ public class MvcExceptionFilter : IExceptionFilter
     public void OnException(ExceptionContext context)
     {
         // Hangi ortamda olduğu kontrolü yapılıyor
-        if(_environment.IsDevelopment())
+        if (_environment.IsDevelopment())
         {
             context.ExceptionHandled = true; // Hata bizler tarafından ele alındığı için true yapıyoruz
             ErrorModel errorModel = new();

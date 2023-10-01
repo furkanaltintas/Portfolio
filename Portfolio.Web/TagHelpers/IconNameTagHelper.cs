@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using Portfolio.Business.Repositories.Abstract;
-using Portfolio.Core.Helpers;
 using Portfolio.Web.Helpers;
 using System.Text;
 
@@ -31,7 +30,7 @@ namespace Portfolio.Web.TagHelpers
             {
                 stringBuilder.Append($@"
                     <h4 class='subtitle scroll-animation' data-animation='fade_from_bottom'>
-                        <i class='{result.Data.IconName}'></i> {result.Data.Slug}
+                        <i class='{result.Data.IconName}'></i> {result.Data.Header}
                     </h4>
                 ");
             }

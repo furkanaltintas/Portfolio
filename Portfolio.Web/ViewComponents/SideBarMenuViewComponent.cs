@@ -14,7 +14,7 @@ namespace Portfolio.Web.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var result = await _service.MenuService.GetAllMenuAsync();
+            var result = await _service.MenuService.GetAllByIsActiveMenuAsync();
             return View(result);
         }
     }

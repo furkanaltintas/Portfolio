@@ -1,28 +1,31 @@
-﻿@model IDataResult<IntroduceGetDto>
+﻿@model IntroducePageViewModel
 
-@if (Model.IsSuccess)
+@if (Model.Result.IsSuccess)
 {
     <section class="hero-section page-section scroll-to-page" id="home">
         <div class="custom-container">
             <div class="hero-content content-width">
                 <div class="section-header">
-                    <my-icon-name entity-name="@Model.Data.GetType().Name"></my-icon-name>
-                    <h1 class="scroll-animation" data-animation="fade_from_bottom">@Model.Data.Title</h1>
+                    <my-icon-name entity-name="@Model.Result.Data.GetType().Name"></my-icon-name>
+                    <h1 class="scroll-animation" data-animation="fade_from_bottom">@Model.Result.Data.Title</h1>
                 </div>
-                <p class="scroll-animation" data-animation="fade_from_bottom">@Model.Data.Description</p>
-                <a href="#portfolio" class="go-to-project-btn scroll-to scroll-animation" data-animation="rotate_up">
-                    <img src="~/drake/assets/images/round-text.png" alt="Rounded text">
-                    <i class="las la-arrow-down"></i>
-                </a>
+                <p class="scroll-animation" data-animation="fade_from_bottom">@Model.Result.Data.Description</p>
+                @if (Model.IsProjectActive)
+                {
+                    <a href="#portfolio" class="go-to-project-btn scroll-to scroll-animation" data-animation="rotate_up">
+                        <img src="~/drake/assets/images/round-text.png" alt="Rounded text">
+                        <i class="las la-arrow-down"></i>
+                    </a>
+                }
 
                 <div class="facts d-flex">
                     <div class="left scroll-animation" data-animation="fade_from_left">
-                        <h1>@Model.Data.ExperiencePeriod+</h1>
-                        <p>@Model.Data.ExperienceContent</p>
+                        <h1>@Model.Result.Data.ExperiencePeriod+</h1>
+                        <p>@Model.Result.Data.ExperienceContent</p>
                     </div>
                     <div class="right scroll-animation" data-animation="fade_from_right">
-                        <h1 id="projectCount">@Model.Data.ProjectCount+</h1>
-                        <p>@Model.Data.ProjectContent</p>
+                        <h1 id="projectCount">@Model.GitHubRepoCount+</h1>
+                        <p>@Model.Result.Data.ProjectContent</p>
                     </div>
                 </div>
             </div>

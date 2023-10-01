@@ -1,4 +1,5 @@
-﻿@model IDataResult<List<MenuGetAllDto>>
+﻿@using Portfolio.Web.Helpers;
+@model IDataResult<List<MenuGetAllDto>>
 
 @if (Model.IsSuccess)
 {
@@ -8,7 +9,7 @@
             <li>
                 <a class="scroll-to" href="#@menu.Slug">
                     @*<my-menu menu-value="@menu" menu-type="SmallMenu"></my-menu>*@
-                    <span>@menu.Header</span> <i class="@menu.IconName"></i>
+                    <span>@EnlargeFirstCharacterHelper.EnlargeFirstCharacter(menu.Slug)</span> <i class="@menu.IconName"></i>
                 </a>
             </li>
         }

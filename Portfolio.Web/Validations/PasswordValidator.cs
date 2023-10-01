@@ -13,7 +13,7 @@ public class PasswordValidator : IPasswordValidator<User>
             errors.Add(new() { Code = "PasswordContainUserName", Description = "Şifre alanı kullanıcı adı içeremez" });
         }
 
-        if(password!.ToLower().Contains(user.Email!.ToLower()))
+        if (password!.ToLower().Contains(user.Email!.ToLower()))
         {
             errors.Add(new() { Code = "PasswordContainEmail", Description = "Şifre alanı e-posta adresi içeremez" });
         }
