@@ -10,16 +10,16 @@ public class TransactionScopeAspect : MethodInterception
     {
         using (TransactionScope transactionScope = new())
         {
-			try
-			{
-				invocation.Proceed();
-				transactionScope.Complete(); // İşlemi kabul et
-			}
-			catch (Exception e)
-			{
-				transactionScope.Dispose(); // Yapılan işlemleri geri al
-				throw;
-			}
+            try
+            {
+                invocation.Proceed();
+                transactionScope.Complete(); // İşlemi kabul et
+            }
+            catch (Exception e)
+            {
+                transactionScope.Dispose(); // Yapılan işlemleri geri al
+                throw;
+            }
         }
     }
 }
