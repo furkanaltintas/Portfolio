@@ -3,6 +3,7 @@ using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
 using Portfolio.Business.ValidationRules.FluentValidation.DtoValidators;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Aspects.Autofac.Validation;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
@@ -20,6 +21,7 @@ public class SkillManager : BaseManager, ISkillService
     }
 
     [ValidationAspect(typeof(SkillCreateDtoValidator))]
+    [CacheRemoveAspect($"{nameof(ISkillService)}.Get")]
     public async Task<IResult> CreateSkillAsync(SkillCreateDto skillCreateDto)
     {
         var skill = Mapper.Map<Skill>(skillCreateDto);
@@ -41,6 +43,8 @@ public class SkillManager : BaseManager, ISkillService
         return new SuccessResult(Messages<Skill>.GenericMessage.TDeleted);
     }
 
+    // Ön yüz tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<SkillGetAllDto>>> GetAllActiveSkillAsync()
     {
         var skills = await Repository.GetRepository<Skill>().GetAllAsync(s => s.IsActive);
@@ -52,6 +56,8 @@ public class SkillManager : BaseManager, ISkillService
         return new SuccessDataResult<List<SkillGetAllDto>>(skillGetAllDtos);
     }
 
+    // Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<SkillGetAllDto>>> GetAllSkillAsync()
     {
         var skills = await Repository.GetRepository<Skill>().GetAllAsync();
@@ -63,6 +69,8 @@ public class SkillManager : BaseManager, ISkillService
         return new SuccessDataResult<List<SkillGetAllDto>>(skillGetAllDtos);
     }
 
+    // Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<SkillGetDto>> GetSkillByIdAsync(int id)
     {
         var skill = await Repository.GetRepository<Skill>().GetAsync(s => s.Id.Equals(id));

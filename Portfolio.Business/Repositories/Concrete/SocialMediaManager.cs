@@ -2,6 +2,7 @@
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -17,6 +18,7 @@ public class SocialMediaManager : BaseManager, ISocialMediaService
     {
     }
 
+    [CacheRemoveAspect($"{nameof(ISocialMediaService)}.Get")]
     public async Task<IResult> CreateSocialMediaAsync(SocialMediaCreateDto socialMediaCreateDto)
     {
         if (socialMediaCreateDto is null)
@@ -40,7 +42,25 @@ public class SocialMediaManager : BaseManager, ISocialMediaService
         return new SuccessResult(Messages<SocialMedia>.GenericMessage.TDeleted);
     }
 
+    // Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<SocialMediaGetAllDto>>> GetAllSocialMediaAsync()
+    {
+        var socialMedias = await Repository
+            .GetRepository<SocialMedia>()
+            .GetAllAsync();
+
+        if (socialMedias.Count is 0)
+            return new ErrorDataResult<List<SocialMediaGetAllDto>>();
+
+        var socialMediaGetAllDtos = Mapper.Map<List<SocialMediaGetAllDto>>(socialMedias);
+
+        return new SuccessDataResult<List<SocialMediaGetAllDto>>(socialMediaGetAllDtos);
+    }
+
+    // Ön yüz tarafı için yazıldı
+    [CacheAspect]
+    public async Task<IDataResult<List<SocialMediaGetAllDto>>> GetAllActiveSocialMediaAsync()
     {
         var socialMedias = await Repository
             .GetRepository<SocialMedia>()

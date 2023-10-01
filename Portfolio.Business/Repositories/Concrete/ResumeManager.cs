@@ -2,6 +2,7 @@
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -9,79 +10,85 @@ using Portfolio.DataAccess.Abstract;
 using Portfolio.Entities.Concrete;
 using Portfolio.Entities.DTOs;
 
-namespace Portfolio.Business.Repositories.Concrete
+namespace Portfolio.Business.Repositories.Concrete;
+
+public class ResumeManager : BaseManager, IResumeService
 {
-    public class ResumeManager : BaseManager, IResumeService
+    public ResumeManager(IRepository repository, IMapper mapper) : base(repository, mapper)
     {
-        public ResumeManager(IRepository repository, IMapper mapper) : base(repository, mapper)
-        {
-        }
+    }
 
-        public async Task<IResult> CreateResumeAsync(ResumeCreateDto resumeCreateDto)
-        {
-            if (resumeCreateDto is null)
-                return new ErrorResult();
+    [CacheRemoveAspect("IResumeService.Get")]
+    public async Task<IResult> CreateResumeAsync(ResumeCreateDto resumeCreateDto)
+    {
+        if (resumeCreateDto is null)
+            return new ErrorResult();
 
-            var resume = Mapper.Map<Resume>(resumeCreateDto);
+        var resume = Mapper.Map<Resume>(resumeCreateDto);
 
-            await Repository.GetRepository<Resume>().AddAsync(resume);
-            await Repository.SaveAsync();
-            return new SuccessResult(Messages<Resume>.GenericMessage.TAdded);
-        }
+        await Repository.GetRepository<Resume>().AddAsync(resume);
+        await Repository.SaveAsync();
+        return new SuccessResult(Messages<Resume>.GenericMessage.TAdded);
+    }
 
-        public async Task<IResult> DeleteResumeAsync(int id)
-        {
-            var resume = await Repository.GetRepository<Resume>().GetAsync(s => s.Id.Equals(id));
+    public async Task<IResult> DeleteResumeAsync(int id)
+    {
+        var resume = await Repository.GetRepository<Resume>().GetAsync(s => s.Id.Equals(id));
 
-            if (resume is null)
-                return new ErrorResult();
+        if (resume is null)
+            return new ErrorResult();
 
-            Repository.GetRepository<Resume>().Delete(resume);
-            await Repository.SaveAsync();
-            return new SuccessResult(Messages<Resume>.GenericMessage.TDeleted);
-        }
+        Repository.GetRepository<Resume>().Delete(resume);
+        await Repository.SaveAsync();
+        return new SuccessResult(Messages<Resume>.GenericMessage.TDeleted);
+    }
 
-        public async Task<IDataResult<List<ResumeGetAllDto>>> GetAllActiveResumeAsync()
-        {
-            var resumes = await Repository.GetRepository<Resume>().GetAllAsync(r => r.IsActive);
+    // Ön yüz tarafı için yazıldı
+    [CacheAspect]
+    public async Task<IDataResult<List<ResumeGetAllDto>>> GetAllActiveResumeAsync()
+    {
+        var resumes = await Repository.GetRepository<Resume>().GetAllAsync(r => r.IsActive);
 
-            if (resumes.Count is 0)
-                return new ErrorDataResult<List<ResumeGetAllDto>>();
+        if (resumes.Count is 0)
+            return new ErrorDataResult<List<ResumeGetAllDto>>();
 
-            var resumeGetAllDtos = Mapper.Map<List<ResumeGetAllDto>>(resumes);
-            return new SuccessDataResult<List<ResumeGetAllDto>>(resumeGetAllDtos);
-        }
+        var resumeGetAllDtos = Mapper.Map<List<ResumeGetAllDto>>(resumes);
+        return new SuccessDataResult<List<ResumeGetAllDto>>(resumeGetAllDtos);
+    }
 
-        public async Task<IDataResult<List<ResumeGetAllDto>>> GetAllResumeAsync()
-        {
-            var resumes = await Repository.GetRepository<Resume>().GetAllAsync();
+    // Admin tarafı için yazıldı
+    [CacheAspect]
+    public async Task<IDataResult<List<ResumeGetAllDto>>> GetAllResumeAsync()
+    {
+        var resumes = await Repository.GetRepository<Resume>().GetAllAsync();
 
-            if (resumes.Count is 0)
-                return new ErrorDataResult<List<ResumeGetAllDto>>();
+        if (resumes.Count is 0)
+            return new ErrorDataResult<List<ResumeGetAllDto>>();
 
-            var resumeGetAllDtos = Mapper.Map<List<ResumeGetAllDto>>(resumes);
-            return new SuccessDataResult<List<ResumeGetAllDto>>(resumeGetAllDtos);
-        }
+        var resumeGetAllDtos = Mapper.Map<List<ResumeGetAllDto>>(resumes);
+        return new SuccessDataResult<List<ResumeGetAllDto>>(resumeGetAllDtos);
+    }
 
-        public async Task<IDataResult<ResumeGetDto>> GetResumeByIdAsync(int id)
-        {
-            var resume = await Repository.GetRepository<Resume>().GetAsync(r => r.Id.Equals(id));
+    // Admin tarafı için yazıldı
+    [CacheAspect]
+    public async Task<IDataResult<ResumeGetDto>> GetResumeByIdAsync(int id)
+    {
+        var resume = await Repository.GetRepository<Resume>().GetAsync(r => r.Id.Equals(id));
 
-            if (resume is null)
-                return new ErrorDataResult<ResumeGetDto>();
+        if (resume is null)
+            return new ErrorDataResult<ResumeGetDto>();
 
-            var resumeGetDto = Mapper.Map<ResumeGetDto>(resume);
-            return new SuccessDataResult<ResumeGetDto>(resumeGetDto);
-        }
+        var resumeGetDto = Mapper.Map<ResumeGetDto>(resume);
+        return new SuccessDataResult<ResumeGetDto>(resumeGetDto);
+    }
 
-        public async Task<IResult> UpdateResumeAsync(ResumeUpdateDto resumeUpdateDto)
-        {
-            if (resumeUpdateDto == null)
-                return new ErrorResult();
+    public async Task<IResult> UpdateResumeAsync(ResumeUpdateDto resumeUpdateDto)
+    {
+        if (resumeUpdateDto == null)
+            return new ErrorResult();
 
-            var resume = Mapper.Map<Resume>(resumeUpdateDto);
-            await Repository.GetRepository<Resume>().UpdateAsync(resume);
-            return new SuccessResult(Messages<Resume>.GenericMessage.TUpdated);
-        }
+        var resume = Mapper.Map<Resume>(resumeUpdateDto);
+        await Repository.GetRepository<Resume>().UpdateAsync(resume);
+        return new SuccessResult(Messages<Resume>.GenericMessage.TUpdated);
     }
 }

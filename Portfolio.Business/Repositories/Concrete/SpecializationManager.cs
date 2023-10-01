@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -18,6 +19,7 @@ public class SpecializationManager : BaseManager, ISpecializationService
     {
     }
 
+    [CacheRemoveAspect("ISpecializationService.Get")]
     public async Task<IResult> CreateSpecializationAsync(SpecializationCreateDto serviceCreateDto)
     {
         if (serviceCreateDto is null)
@@ -44,6 +46,8 @@ public class SpecializationManager : BaseManager, ISpecializationService
         return new SuccessResult(Messages<Specialization>.GenericMessage.TDeleted);
     }
 
+    // Ön yüz tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<SpecializationGetAllDto>>> GetAllActiveSpecializationAsync()
     {
         var services = await Repository
@@ -64,6 +68,8 @@ public class SpecializationManager : BaseManager, ISpecializationService
         return new SuccessDataResult<List<SpecializationGetAllDto>>(serviceGetAllDtos);
     }
 
+    // Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<SpecializationGetAllDto>>> GetAllSpecializationAsync()
     {
         var services = await Repository

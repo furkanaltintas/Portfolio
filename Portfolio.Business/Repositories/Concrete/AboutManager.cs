@@ -2,6 +2,7 @@
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -17,6 +18,7 @@ public class AboutManager : BaseManager, IAboutService
     {
     }
 
+    [CacheRemoveAspect("IAboutService.Get")]
     public async Task<IResult> CreateAboutAsync(AboutCreateDto aboutCreateDto)
     {
         if (aboutCreateDto is null)
@@ -41,6 +43,8 @@ public class AboutManager : BaseManager, IAboutService
         return new SuccessResult(Messages<About>.GenericMessage.TDeleted);
     }
 
+    // Ön yüz ve Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<AboutGetDto>> GetAboutAsync()
     {
         var about = await Repository
@@ -55,6 +59,8 @@ public class AboutManager : BaseManager, IAboutService
         return new SuccessDataResult<AboutGetDto>(aboutGetDto);
     }
 
+    // Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<AboutGetDto>> GetAboutByIdAsync(int id)
     {
         var about = await Repository

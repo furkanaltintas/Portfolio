@@ -12,4 +12,9 @@ public interface IIntroduceService
     Task<IResult> CreateIntroduceAsync(IntroduceCreateDto introduceCreateDto);
     Task<IResult> UpdateIntroduceAsync(IntroduceGetDto introduceGetDto);
     Task<IResult> DeleteIntroduceAsync(int id);
+
+
+
+    // Api
+    Task<short> GitHubApiCount();
 }

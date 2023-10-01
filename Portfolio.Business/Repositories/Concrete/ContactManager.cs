@@ -2,6 +2,7 @@
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -17,6 +18,7 @@ public class ContactManager : BaseManager, IContactService
     {
     }
 
+    [CacheRemoveAspect("IContactService.Get")]
     public async Task<IResult> CreateContactAsync(ContactCreateDto contactCreateDto)
     {
         if (contactCreateDto is null)
@@ -41,6 +43,7 @@ public class ContactManager : BaseManager, IContactService
         return new SuccessResult(Messages<Contact>.GenericMessage.TDeleted);
     }
 
+    [CacheAspect]
     public async Task<IDataResult<List<ContactGetAllDto>>> GetAllContactAsync()
     {
         var contacts = await Repository

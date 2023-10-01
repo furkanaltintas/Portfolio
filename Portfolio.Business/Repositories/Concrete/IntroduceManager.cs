@@ -3,6 +3,7 @@ using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
 using Portfolio.Business.Services.Github;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -20,6 +21,7 @@ public class IntroduceManager : BaseManager, IIntroduceService
         _githubApiService = githubApiService;
     }
 
+    [CacheRemoveAspect("IIntroduceService.Get")]
     public async Task<IResult> CreateIntroduceAsync(IntroduceCreateDto introduceCreateDto)
     {
         if (introduceCreateDto is null)
@@ -47,6 +49,8 @@ public class IntroduceManager : BaseManager, IIntroduceService
         return new SuccessResult(Messages<Introduce>.GenericMessage.TDeleted);
     }
 
+    // Ön yüz ve Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<IntroduceGetDto>> GetIntroduceAsync()
     {
         var introduce = await Repository
@@ -56,11 +60,11 @@ public class IntroduceManager : BaseManager, IIntroduceService
         if (introduce is null)
             return new ErrorDataResult<IntroduceGetDto>($"");
 
-        introduce.ProjectCount = await GitHubApiCount();
         var introduceGetDto = Mapper.Map<IntroduceGetDto>(introduce);
         return new SuccessDataResult<IntroduceGetDto>(introduceGetDto);
     }
 
+    [CacheAspect]
     public async Task<IDataResult<IntroduceGetDto>> GetIntroduceByIdAsync(int id)
     {
         var introduce = await Repository
@@ -89,7 +93,10 @@ public class IntroduceManager : BaseManager, IIntroduceService
         return new SuccessResult(Messages<Introduce>.GenericMessage.TUpdated);
     }
 
-    private async Task<short> GitHubApiCount()
+
+    // GitHub Repo Çekme Sistemi
+    [CacheAspect(120)]
+    public async Task<short> GitHubApiCount()
     {
         return await _githubApiService.GetRepoCountAsync("furkanaltintas");
     }

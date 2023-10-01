@@ -2,6 +2,7 @@
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -17,6 +18,7 @@ public class TestimonialManager : BaseManager, ITestimonialService
     {
     }
 
+    [CacheRemoveAspect("ITestimonialService.Get")]
     public async Task<IResult> DeleteTestimonialAsync(int id)
     {
         var testimonial = await Repository.GetRepository<Testimonial>().GetAsync(t => t.Id.Equals(id));
@@ -29,6 +31,8 @@ public class TestimonialManager : BaseManager, ITestimonialService
         return new SuccessResult(Messages<Testimonial>.GenericMessage.TDeleted);
     }
 
+    // Ön yüz tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<TestimonialGetAllDto>>> GetAllActiveTestimonialAsync()
     {
         var testimonials = await Repository.GetRepository<Testimonial>().GetAllAsync(s => s.IsActive);
@@ -40,6 +44,8 @@ public class TestimonialManager : BaseManager, ITestimonialService
         return new SuccessDataResult<List<TestimonialGetAllDto>>(testimonialGetAllDtos);
     }
 
+    // Admin tarafı için yazıldı
+    [CacheAspect]
     public async Task<IDataResult<List<TestimonialGetAllDto>>> GetAllTestimonialAsync()
     {
         var testimonials = await Repository.GetRepository<Testimonial>().GetAllAsync();

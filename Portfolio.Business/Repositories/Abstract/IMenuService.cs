@@ -13,7 +13,7 @@ public interface IMenuService
 
     Task<IResult> MenuCreateAsync(MenuCreateDto menuCreateDto);
     Task<IResult> MenuUpdateAsync(MenuUpdateDto menuUpdateDto);
-    Task<List<string>> MenuQueueAsync();
+    Task<List<string>> GetMenuQueueAsync();
 
 
 

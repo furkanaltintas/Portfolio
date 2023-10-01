@@ -6,6 +6,7 @@ namespace Portfolio.Business.Repositories.Abstract;
 public interface ISocialMediaService
 {
     Task<IDataResult<List<SocialMediaGetAllDto>>> GetAllSocialMediaAsync();
+    Task<IDataResult<List<SocialMediaGetAllDto>>> GetAllActiveSocialMediaAsync();
 
     Task<IResult> CreateSocialMediaAsync(SocialMediaCreateDto socialMediaCreateDto);
     Task<IResult> UpdateSocialMediaAsync(SocialMediaUpdateDto socialMediaUpdateDto);

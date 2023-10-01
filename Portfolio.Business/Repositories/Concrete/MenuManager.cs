@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Portfolio.Business.Constants;
 using Portfolio.Business.Repositories.Abstract;
 using Portfolio.Business.Repositories.Concrete.Base;
+using Portfolio.Core.Aspects.Autofac.Caching;
 using Portfolio.Core.Utilities.Results.Abstract;
 using Portfolio.Core.Utilities.Results.Concrete.Error;
 using Portfolio.Core.Utilities.Results.Concrete.Success;
@@ -18,6 +19,7 @@ public class MenuManager : BaseManager, IMenuService
     {
     }
 
+    [CacheAspect]
     public async Task<IDataResult<List<MenuGetAllDto>>> GetAllByIsActiveMenuAsync()
     {
         var menus = await Repository
@@ -41,6 +43,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<List<MenuGetAllDto>>(menuGetAllDtos);
     }
 
+    [CacheAspect]
     public async Task<IDataResult<List<MenuGetAllDto>>> GetAllMenuAsync()
     {
         var menus = await Repository
@@ -61,6 +64,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<List<MenuGetAllDto>>(menuGetAllDtos);
     }
 
+    [CacheAspect]
     public async Task<IDataResult<MenuGetDto>> GetMenuAsync(string menuName)
     {
         if (string.IsNullOrEmpty(menuName))
@@ -77,6 +81,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<MenuGetDto>(menuGetDto);
     }
 
+    [CacheAspect]
     public async Task<IDataResult<T>> GetMenuByIdTypeEntity<T>(int id)
     {
         var menu = await Repository.GetRepository<Menu>().GetAsync(m => m.Id.Equals(id));
@@ -88,6 +93,19 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<T>(tEntity);
     }
 
+    [CacheAspect]
+    public async Task<List<string>> GetMenuQueueAsync()
+    {
+        var queues = await Repository
+            .GetRepository<Menu>()
+            .Query()
+            .Select(m => m.Queue.ToString()).ToListAsync();
+        return queues;
+    }
+
+
+
+    [CacheRemoveAspect("IMenuService.Get")]
     public async Task<IResult> MenuCreateAsync(MenuCreateDto menuCreateDto)
     {
         if (menuCreateDto is null)
@@ -115,15 +133,6 @@ public class MenuManager : BaseManager, IMenuService
         // await Repository.GetRepository<Menu>().UpdateAsync(menu);
         await Repository.SaveAsync();
         return new SuccessResult(Messages<Menu>.GenericMessage.TDeleted);
-    }
-
-    public async Task<List<string>> MenuQueueAsync()
-    {
-        var queues = await Repository
-            .GetRepository<Menu>()
-            .Query()
-            .Select(m => m.Queue.ToString()).ToListAsync();
-        return queues;
     }
 
     public async Task<IResult> MenuUnDeleteAsync(int id)
