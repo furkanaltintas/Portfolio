@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Portfolio.Business.Repositories.Abstract;
-using Portfolio.Web.Attributes;
 
 namespace Portfolio.Web.Areas.Admin.Controllers.Base;
 
