@@ -15,6 +15,8 @@ public class IntroduceViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync()
     {
         var result = await _service.IntroduceService.GetIntroduceAsync();
+        var repoCount = await _service.IntroduceService.GitHubApiCount();
+        result.Data.ProjectCount = repoCount;
 
         return View(result);
     }
