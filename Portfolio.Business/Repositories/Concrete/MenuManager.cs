@@ -43,6 +43,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<List<MenuGetAllDto>>(menuGetAllDtos);
     }
 
+
     [CacheAspect]
     public async Task<IDataResult<List<MenuGetAllDto>>> GetAllMenuAsync()
     {
@@ -64,6 +65,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<List<MenuGetAllDto>>(menuGetAllDtos);
     }
 
+
     [CacheAspect]
     public async Task<IDataResult<MenuGetDto>> GetMenuAsync(string menuName)
     {
@@ -81,6 +83,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<MenuGetDto>(menuGetDto);
     }
 
+
     [CacheAspect]
     public async Task<IDataResult<T>> GetMenuByIdTypeEntity<T>(int id)
     {
@@ -93,6 +96,7 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessDataResult<T>(tEntity);
     }
 
+
     [CacheAspect]
     public async Task<List<string>> GetMenuQueueAsync()
     {
@@ -102,7 +106,6 @@ public class MenuManager : BaseManager, IMenuService
             .Select(m => m.Queue.ToString()).ToListAsync();
         return queues;
     }
-
 
 
     [CacheRemoveAspect("IMenuService.Get")]
@@ -121,6 +124,8 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessResult(Messages<Menu>.GenericMessage.TAdded);
     }
 
+
+    [CacheRemoveAspect("IMenuService.Get")]
     public async Task<IResult> MenuDeleteAsync(int id)
     {
         var menu = await Repository.GetRepository<Menu>().GetAsync(a => a.Id.Equals(id), true);
@@ -135,6 +140,8 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessResult(Messages<Menu>.GenericMessage.TDeleted);
     }
 
+
+    [CacheRemoveAspect("IMenuService.Get")]
     public async Task<IResult> MenuUnDeleteAsync(int id)
     {
         var menu = await Repository.GetRepository<Menu>().GetAsync(a => a.Id.Equals(id), true);
@@ -149,6 +156,8 @@ public class MenuManager : BaseManager, IMenuService
         return new SuccessResult(Messages<Menu>.GenericMessage.TDeleted);
     }
 
+
+    [CacheRemoveAspect("IMenuService.Get")]
     public async Task<IResult> MenuUpdateAsync(MenuUpdateDto menuUpdateDto)
     {
         if (menuUpdateDto is null)
@@ -169,5 +178,16 @@ public class MenuManager : BaseManager, IMenuService
         await Repository.SaveAsync();
 
         return new SuccessResult(Messages<Menu>.GenericMessage.TUpdated);
+    }
+
+
+    public async Task<bool> IsMenuExistsAsync(string viewComponentName)
+    {
+        return await Repository
+            .GetRepository<Menu>()
+            .AnyAsync(
+            m => m.ComponentName.Equals(viewComponentName)
+            &&
+            m.IsActive);
     }
 }

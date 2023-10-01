@@ -16,26 +16,26 @@ namespace Portfolio.Business.Repositories.Concrete
         private readonly SignInManager<User> _signInManager;
         private readonly IMapper _mapper;
 
-		public UserManager(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
-		{
-			_userManager = userManager;
-			_mapper = mapper;
-			_signInManager = signInManager;
-		}
+        public UserManager(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+        {
+            _userManager = userManager;
+            _mapper = mapper;
+            _signInManager = signInManager;
+        }
 
-		public async Task<IDataResult<UserGetDto>> GetUserAsync()
+        public async Task<IDataResult<UserGetDto>> GetUserAsync()
         {
             var user = await _userManager.Users.FirstOrDefaultAsync();
 
-            if(user is null)
+            if (user is null)
                 return new ErrorDataResult<UserGetDto>();
 
             var userGetDto = _mapper.Map<UserGetDto>(user);
             return new SuccessDataResult<UserGetDto>(userGetDto);
         }
 
-		public async Task<IResult> UserLoginAsync(UserLoginDto userLoginDto)
-		{
+        public async Task<IResult> UserLoginAsync(UserLoginDto userLoginDto)
+        {
             var hasUser = await _userManager.FindByNameAsync(userLoginDto.Username); // Böyle bir kullanıcı var mı ?
 
             if (hasUser is null)
@@ -50,7 +50,7 @@ namespace Portfolio.Business.Repositories.Concrete
             if (signInResult.IsLockedOut) // Kilitleme mekanizması devreye girdi ise
                 return new ErrorResult("3 dakika boyunca giriş yapamazsınız");
 
-            if(!signInResult.Succeeded) // İşlem başarısız ise
+            if (!signInResult.Succeeded) // İşlem başarısız ise
             {
                 var count = await _userManager.GetAccessFailedCountAsync(hasUser);
                 // Hatalı giriş sayısını tutar
@@ -61,11 +61,11 @@ namespace Portfolio.Business.Repositories.Concrete
             }
 
             return new SuccessResult();
-		}
+        }
 
         public async Task UserLogoutAsync()
         {
-			await _signInManager.SignOutAsync();
-		}
-	}
+            await _signInManager.SignOutAsync();
+        }
+    }
 }

@@ -5,8 +5,8 @@ namespace Portfolio.Business.Repositories.Abstract;
 
 public interface IUserService
 {
-	Task<IDataResult<UserGetDto>> GetUserAsync();
+    Task<IDataResult<UserGetDto>> GetUserAsync();
 
-	Task<IResult> UserLoginAsync(UserLoginDto userLoginDto);
-	Task UserLogoutAsync();
+    Task<IResult> UserLoginAsync(UserLoginDto userLoginDto);
+    Task UserLogoutAsync();
 }
