@@ -1,10 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Portfolio.Business.Repositories.Abstract;
-using Portfolio.Business.Services.Github;
-using Portfolio.DataAccess.Abstract;
-using Portfolio.Entities.Concrete;
 
 namespace Portfolio.Business.Repositories.Concrete.Base;
 
