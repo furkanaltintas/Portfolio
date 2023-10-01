@@ -1,12 +1,11 @@
-﻿using Portfolio.Core.Entities.Enums;
-
-namespace Portfolio.Web.Helpers;
+﻿namespace Portfolio.Web.Helpers;
 
 public class ControllerNameRemoveHelper
 {
-    public static string ControllerNameRemove(string name)
+    private const string CONTROLLER = "Controller";
+    public static string ControllerNameRemove(string controllerName)
     {
-        name = name.Replace("Controller", "");
-        return name;
+        controllerName = controllerName.Replace(CONTROLLER, string.Empty);
+        return controllerName;
     }
 }
