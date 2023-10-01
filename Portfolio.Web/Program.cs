@@ -22,7 +22,7 @@ builder.Services.AddDependencyResolvers(new ICoreModule[]
 
 var app = builder.Build();
 
-if(app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
@@ -41,8 +41,12 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+#region Maintenance
 bool maintenanceMode = builder.Configuration.GetValue<bool>("MaintenanceMode");
 app.UseMiddleware<MaintenanceModeMiddleware>(maintenanceMode); // Bakým modunu etkinleþtirir veya devre dýþý býrakýr.
+
+#endregion
 
 #region Route
 app.MapAreaControllerRoute(
