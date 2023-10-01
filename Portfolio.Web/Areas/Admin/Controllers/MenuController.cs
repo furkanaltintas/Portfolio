@@ -29,7 +29,7 @@ public class MenuController : BaseController
     {
         var result = await Service.MenuService.GetMenuByIdTypeEntity<MenuUpdateDto>(id);
         result.Data.OldQueue = result.Data.Queue;
-        result.Data.Queues = await Service.MenuService.MenuQueueAsync();
+        result.Data.Queues = await Service.MenuService.GetMenuQueueAsync();
         return this.ResponseViewData(result);
     }
 
